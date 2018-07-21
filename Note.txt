@@ -1,0 +1,6 @@
+PLEASE NOTE
+1. This branch is checked out from rel_1.3.2 branch from Alios-Things.
+	please refer to https://github.com/alibaba/AliOS-Things
+2. Plan to port STM32F103 on Alios-Things.
+
+KEEP GOING
