@@ -7,23 +7,16 @@ src     = Split('''
        src/displayer/hal/flash_l4.c  
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c  
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c 
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ramfunc.c 
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c    
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c_ex.c 
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c    
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_qspi.c   
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c 
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rng.c    
+       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c  
+       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c            
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.c    
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.c 
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c    
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi_ex.c 
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c    
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c   
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart_ex.c  
+       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c    
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c   
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c    
-       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr_ex.c 
+       Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c  
        Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c  
        Drivers/BSP/displayer/stm32l475e_iot01.c 
        Drivers/BSP/Components/es_wifi/es_wifi.c  

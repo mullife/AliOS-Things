@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "stm32l4xx_hal.h"
-#include "stm32l4xx_hal_flash.h"
+#include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal_flash.h"
 
 #define EN_DBG 0
 
