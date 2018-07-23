@@ -45,7 +45,7 @@
 #endif 
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal.h"
+#include "stm32f1xx_hal.h"
 #include "../Components/mx25r6435f/mx25r6435f.h"
 
 /** @addtogroup BSP

@@ -14,7 +14,7 @@
 #include <hal/wifi.h>
 #include <hal/ota.h>
 #include "stm32_wifi.h"
-#include "stm32l4xx_hal_cortex.h"
+#include "stm32f1xx_hal_cortex.h"
 
 #define TAG "hw"
 

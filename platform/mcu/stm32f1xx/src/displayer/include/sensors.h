@@ -16,7 +16,7 @@
 
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal.h"
+#include "stm32f1xx_hal.h"
 #include "stm32l475e_iot01.h"
 #include "stm32l475e_iot01_accelero.h"
 #include "stm32l475e_iot01_magneto.h"
