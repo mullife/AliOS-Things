@@ -7,7 +7,7 @@
 #include <hal/ota.h>
 #include <aos/log.h>
 #include <hal/soc/soc.h>
-#include "stm32l4xx.h"
+#include "stm32f1xx.h"
 #include "stm32f1xx_hal_flash.h"
 #include <CheckSumUtils.h>
 

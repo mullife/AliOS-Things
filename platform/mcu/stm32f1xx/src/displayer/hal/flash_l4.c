@@ -50,7 +50,7 @@
 #include "flash.h"
 #include <string.h>
 #include <stdbool.h>
-#include "stm32l4xx.h"
+#include "stm32f1xx.h"
 #include "stm32f1xx_hal_flash.h"
 #include <aos/aos.h>
 /* Private typedef -----------------------------------------------------------*/
