@@ -145,17 +145,17 @@ typedef enum
 #define DISCOVERY_COM1_CLK_ENABLE()             __HAL_RCC_USART1_CLK_ENABLE()
 #define DISCOVERY_COM1_CLK_DISABLE()            __HAL_RCC_USART1_CLK_DISABLE()
 
-#define DISCOVERY_COM1_TX_PIN                   GPIO_PIN_6
-#define DISCOVERY_COM1_TX_GPIO_PORT             GPIOB
+#define DISCOVERY_COM1_TX_PIN                   GPIO_PIN_9
+#define DISCOVERY_COM1_TX_GPIO_PORT             GPIOA
 #define DISCOVERY_COM1_TX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOB_CLK_ENABLE()   
 #define DISCOVERY_COM1_TX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOB_CLK_DISABLE()  
-#define DISCOVERY_COM1_TX_AF                    GPIO_AF7_USART1
+//#define DISCOVERY_COM1_TX_AF                    GPIO_AF7_USART1
 
-#define DISCOVERY_COM1_RX_PIN                   GPIO_PIN_7
-#define DISCOVERY_COM1_RX_GPIO_PORT             GPIOB
+#define DISCOVERY_COM1_RX_PIN                   GPIO_PIN_10
+#define DISCOVERY_COM1_RX_GPIO_PORT             GPIOA
 #define DISCOVERY_COM1_RX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOB_CLK_ENABLE()   
 #define DISCOVERY_COM1_RX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOB_CLK_DISABLE()  
-#define DISCOVERY_COM1_RX_AF                    GPIO_AF7_USART1
+//#define DISCOVERY_COM1_RX_AF                    GPIO_AF7_USART1
 
 #define DISCOVERY_COM1_IRQn                     USART1_IRQn
                                               
@@ -163,92 +163,38 @@ typedef enum
 /**
  * @brief Definition for COM port4, connected to USART4
  */ 
-#define DISCOVERY_COM4                          UART4
-#define DISCOVERY_COM4_CLK_ENABLE()             __HAL_RCC_UART4_CLK_ENABLE()
-#define DISCOVERY_COM4_CLK_DISABLE()            __HAL_RCC_UART4_CLK_DISABLE()
+#define DISCOVERY_COM2                          USART2
+#define DISCOVERY_COM2_CLK_ENABLE()             __HAL_RCC_USART2_CLK_ENABLE()
+#define DISCOVERY_COM2_CLK_DISABLE()            __HAL_RCC_USART2_CLK_DISABLE()
 
-#define DISCOVERY_COM4_TX_PIN                   GPIO_PIN_1
-#define DISCOVERY_COM4_TX_GPIO_PORT             GPIOA
-#define DISCOVERY_COM4_TX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOA_CLK_ENABLE()   
-#define DISCOVERY_COM4_TX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOA_CLK_DISABLE()  
-#define DISCOVERY_COM4_TX_AF                    GPIO_AF8_UART4
+#define DISCOVERY_COM2_TX_PIN                   GPIO_PIN_2
+#define DISCOVERY_COM2_TX_GPIO_PORT             GPIOA
+#define DISCOVERY_COM2_TX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOA_CLK_ENABLE()   
+#define DISCOVERY_COM2_TX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOA_CLK_DISABLE()  
+//#define DISCOVERY_COM2_TX_AF                    GPIO_AF8_UART4
 
-#define DISCOVERY_COM4_RX_PIN                   GPIO_PIN_0
-#define DISCOVERY_COM4_RX_GPIO_PORT             GPIOA
-#define DISCOVERY_COM4_RX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOA_CLK_ENABLE()   
-#define DISCOVERY_COM4_RX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOA_CLK_DISABLE()  
-#define DISCOVERY_COM4_RX_AF                    GPIO_AF8_UART4
+#define DISCOVERY_COM2_RX_PIN                   GPIO_PIN_3
+#define DISCOVERY_COM2_RX_GPIO_PORT             GPIOA
+#define DISCOVERY_COM2_RX_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOA_CLK_ENABLE()   
+#define DISCOVERY_COM2_RX_GPIO_CLK_DISABLE()    __HAL_RCC_GPIOA_CLK_DISABLE()  
+//#define DISCOVERY_COM2_RX_AF                    GPIO_AF8_UART4
 
-#define DISCOVERY_COM4_IRQn                     UART4_IRQn
+#define DISCOVERY_COM2_IRQn                     USART2_IRQn
 
 #define DISCOVERY_COMx_CLK_ENABLE(__INDEX__)            do { if((__INDEX__) == COM1) {DISCOVERY_COM1_CLK_ENABLE();} \
-                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM4_CLK_ENABLE();}} while(0)
+                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM2_CLK_ENABLE();}} while(0)
 #define DISCOVERY_COMx_CLK_DISABLE(__INDEX__)           do { if((__INDEX__) == COM1) {DISCOVERY_COM1_CLK_DISABLE();} \
-                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM4_CLK_DISABLE();}} while(0)
+                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM2_CLK_DISABLE();}} while(0)
 
 #define DISCOVERY_COMx_TX_GPIO_CLK_ENABLE(__INDEX__)    do { if((__INDEX__) == COM1) {DISCOVERY_COM1_TX_GPIO_CLK_ENABLE();} \
-                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM4_TX_GPIO_CLK_ENABLE();}} while(0)
+                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM2_TX_GPIO_CLK_ENABLE();}} while(0)
 #define DISCOVERY_COMx_TX_GPIO_CLK_DISABLE(__INDEX__)   do { if((__INDEX__) == COM1) {DISCOVERY_COM1_TX_GPIO_CLK_DISABLE();} \
-                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM4_TX_GPIO_CLK_DISABLE();}} while(0)
+                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM2_TX_GPIO_CLK_DISABLE();}} while(0)
 
 #define DISCOVERY_COMx_RX_GPIO_CLK_ENABLE(__INDEX__)    do { if((__INDEX__) == COM1) {DISCOVERY_COM1_RX_GPIO_CLK_ENABLE();} \
-                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM4_RX_GPIO_CLK_ENABLE();}} while(0)
+                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM2_RX_GPIO_CLK_ENABLE();}} while(0)
 #define DISCOVERY_COMx_RX_GPIO_CLK_DISABLE(__INDEX__)   do { if((__INDEX__) == COM1) {DISCOVERY_COM1_RX_GPIO_CLK_DISABLE();} \
-                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM4_RX_GPIO_CLK_DISABLE();}} while(0)
-
-
-
-/* User can use this section to tailor I2Cx instance used and associated resources */
-/* Definition for I2Cx resources */
-#define DISCOVERY_I2Cx                             I2C2
-#define DISCOVERY_I2Cx_CLK_ENABLE()                __HAL_RCC_I2C2_CLK_ENABLE()
-#define DISCOVERY_I2Cx_CLK_DISABLE()               __HAL_RCC_I2C2_CLK_DISABLE()   
-#define DISCOVERY_DMAx_CLK_ENABLE()                __HAL_RCC_DMA1_CLK_ENABLE()
-#define DISCOVERY_I2Cx_SCL_SDA_GPIO_CLK_ENABLE()   __HAL_RCC_GPIOB_CLK_ENABLE()
-#define DISCOVERY_I2Cx_SCL_SDA_GPIO_CLK_DISABLE()  __HAL_RCC_GPIOB_CLK_DISABLE()
-   
-#define DISCOVERY_I2Cx_FORCE_RESET()               __HAL_RCC_I2C2_FORCE_RESET()
-#define DISCOVERY_I2Cx_RELEASE_RESET()             __HAL_RCC_I2C2_RELEASE_RESET()
-
-/* Definition for I2Cx Pins */
-#define DISCOVERY_I2Cx_SCL_PIN                     GPIO_PIN_10
-#define DISCOVERY_I2Cx_SDA_PIN                     GPIO_PIN_11                                               
-#define DISCOVERY_I2Cx_SCL_SDA_GPIO_PORT           GPIOB
-#define DISCOVERY_I2Cx_SCL_SDA_AF                  GPIO_AF4_I2C2
-
-/* I2C interrupt requests */
-#define DISCOVERY_I2Cx_EV_IRQn                     I2C2_EV_IRQn
-#define DISCOVERY_I2Cx_ER_IRQn                     I2C2_ER_IRQn
-
-/* I2C clock speed configuration (in Hz)
-  WARNING:
-   Make sure that this define is not already declared in other files.
-   It can be used in parallel by other modules. */
-#ifndef DISCOVERY_I2C_SPEED
- #define DISCOVERY_I2C_SPEED                             100000
-#endif /* DISCOVERY_I2C_SPEED */
-
-#ifndef DISCOVERY_I2Cx_TIMING  
-#define DISCOVERY_I2Cx_TIMING                     ((uint32_t)0x00702681)
-#endif /* DISCOVERY_I2Cx_TIMING */ 
-
-
-/* I2C Sensors address */
-/* LPS22HB (Pressure) I2C Address */
-#define LPS22HB_I2C_ADDRESS  (uint8_t)0xBA
-/* HTS221 (Humidity) I2C Address */
-#define HTS221_I2C_ADDRESS   (uint8_t)0xBE
-
-#ifdef USE_LPS22HB_TEMP
-/* LPS22HB Sensor hardware I2C address */ 
-#define TSENSOR_I2C_ADDRESS     LPS22HB_I2C_ADDRESS
-#else /* USE_HTS221_TEMP */
-/* HTS221 Sensor hardware I2C address */ 
-#define TSENSOR_I2C_ADDRESS     HTS221_I2C_ADDRESS
-#endif
-/**
-  * @}
-  */
+                                                             else if((__INDEX__) == COM4) {DISCOVERY_COM2_RX_GPIO_CLK_DISABLE();}} while(0)
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/

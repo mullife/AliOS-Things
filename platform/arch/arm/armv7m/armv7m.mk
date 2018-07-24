@@ -20,7 +20,6 @@ endif
 
 
 else ifeq ($(HOST_ARCH),Cortex-M7)
-
 ifeq ($(COMPILER),armcc)
 
 else ifeq ($(COMPILER),iar)
@@ -31,6 +30,19 @@ $(NAME)_MBINS_TYPE := kernel
 $(NAME)_SOURCES := gcc/m7/port_c.c
 $(NAME)_SOURCES += gcc/m7/port_s.S
 GLOBAL_INCLUDES += gcc/m7/
+endif
+
+else ifeq ($(HOST_ARCH),Cortex-M3)
+ifeq ($(COMPILER),armcc)
+
+else ifeq ($(COMPILER),iar)
+
+else
+$(NAME)_MBINS_TYPE := kernel
+
+$(NAME)_SOURCES := gcc/m3/port_c.c
+$(NAME)_SOURCES += gcc/m3/port_s.S
+GLOBAL_INCLUDES += gcc/m3/
 endif
 
 endif

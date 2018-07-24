@@ -90,8 +90,8 @@ int FLASH_unlock_erase(uint32_t address, uint32_t len_bytes)
   }
   else
   {
-    EraseInit.Page = FLASH_get_pageInBank(address);
-    EraseInit.NbPages = FLASH_get_pageInBank(address + len_bytes - 1) - EraseInit.Page + 1;
+//    EraseInit.Page = FLASH_get_pageInBank(address);
+//    EraseInit.NbPages = FLASH_get_pageInBank(address + len_bytes - 1) - EraseInit.Page + 1;
     
     HAL_FLASH_Unlock();
     
@@ -119,6 +119,7 @@ int FLASH_write_at(uint32_t address, uint64_t *pData, uint32_t len_bytes)
 {
   int i;
   int ret = -1;
+  
 #ifndef CODE_UNDER_FIREWALL    
     /* irq already mask under firewall */
   __disable_irq();
@@ -166,17 +167,19 @@ uint32_t FLASH_get_bank(uint32_t addr)
 {
   uint32_t bank = 0;
 
+// TODO:
+/*
   if (READ_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_FB_MODE) == 0)
   {
-    /* No Bank swap */
+    // No Bank swap
     bank = (addr < (FLASH_BASE + FLASH_BANK_SIZE)) ? FLASH_BANK_1 : FLASH_BANK_2;
   }
   else
   {
-    /* Bank swap */
+    // Bank swap
     bank = (addr < (FLASH_BASE + FLASH_BANK_SIZE)) ? FLASH_BANK_2 : FLASH_BANK_1;
   }
-  
+  */
   return bank;
 }
 
@@ -190,20 +193,7 @@ int FLASH_get_pageInBank(uint32_t addr)
 {
   int page = -1;
 
-  if ( ((FLASH_BASE + FLASH_SIZE) > addr) && (addr >= FLASH_BASE) )
-  {
-    /* The address is in internal FLASH range. */
-    if ( addr < (FLASH_BASE + FLASH_BANK_SIZE) )
-    { 
-      /* Addr in the first bank */
-      page = (addr - FLASH_BASE) / FLASH_PAGE_SIZE;
-    }
-    else 
-    {
-      /* Addr in the second bank */
-      page = (addr - FLASH_BASE - FLASH_BANK_SIZE) / FLASH_PAGE_SIZE;
-    }
-  }
+// TODO:
   
   return page;
 }
@@ -231,7 +221,7 @@ int FLASH_update(uint32_t dst_addr, const void *data, uint32_t size)
     return -1;
   memset(page_cache, 0, FLASH_PAGE_SIZE);
 
-	__HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_ALL_ERRORS);
+//	__HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_ALL_ERRORS);
 
   do {
     uint32_t fl_addr = ROUND_DOWN(dst_addr, FLASH_PAGE_SIZE);
@@ -292,39 +282,7 @@ int FLASH_set_boot_bank(uint32_t bank)
   /* Get the Dual boot configuration status. */                    
   HAL_FLASHEx_OBGetConfig(&OBInit);           
   
-  /* Enable/Disable dual boot feature */
-  OBInit.OptionType = OPTIONBYTE_USER;
-  OBInit.USERType   = OB_USER_BFB2;
-  switch (bank)
-  {
-    case FLASH_BANK_1:
-      OBInit.USERConfig = OB_BFB2_DISABLE;
-      break;
-    case FLASH_BANK_2:
-      OBInit.USERConfig = OB_BFB2_ENABLE;
-      break;
-    case FLASH_BANK_BOTH:
-      OBInit.USERConfig = ( (OBInit.USERConfig & OB_BFB2_ENABLE) == OB_BFB2_ENABLE ) ? OB_BFB2_DISABLE : OB_BFB2_ENABLE;
-      break;
-    default:
-      rc = -1;
-  }
-  
-  if(HAL_FLASHEx_OBProgram (&OBInit) != HAL_OK)
-  { /* Failed setting the option bytes configuration.
-     * Call 'HAL_FLASH_GetError()' for details. */
-    rc = -1;
-    printf("Error: Could not init the option bytes programming.\n");
-  }
-  else
-  { /* Start the Option Bytes programming process */  
-    if (HAL_FLASH_OB_Launch() != HAL_OK)  
-    { /* Failed reloading the option bytes configuration.
-       * Call 'HAL_FLASH_GetError()' for details. */
-      rc = -1;
-      printf("Error: Could not program the 2nd bank boot option byte.\n");
-    }
-  }
+  // TODO:
   
   return rc;
 }
@@ -357,16 +315,8 @@ int FLASH_read_at(uint32_t address, uint64_t *pData, uint32_t len_bytes)
 
 int FLASH_bank1_enabled( )
 {
-    FLASH_OBProgramInitTypeDef    OBInit;
-    /* Set BFB2 bit to enable boot from Flash Bank2 */
-    /* Allow Access to the Flash control registers and user Flash. */
-    HAL_FLASH_Unlock();
-    /* Allow Access to the option bytes sector. */
-    HAL_FLASH_OB_Unlock();
-    /* Get the Dual boot configuration status. */
-    HAL_FLASHEx_OBGetConfig(&OBInit);
-
-    return ( (OBInit.USERConfig & OB_BFB2_ENABLE) == OB_BFB2_ENABLE ) ? 0 : 1;
+	// TODO: 
+	return -1;
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

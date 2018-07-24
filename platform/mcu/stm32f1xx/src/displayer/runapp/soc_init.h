@@ -55,6 +55,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"  
+#include "stm32l475e_iot01.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -80,7 +81,7 @@ uint8_t Button_WaitForPush(uint32_t timeout);
 void    Led_On(void);
 void    Led_Off(void);
 
-extern RNG_HandleTypeDef hrng;
+//extern RNG_HandleTypeDef hrng;
 extern RTC_HandleTypeDef hrtc;
 
 #ifdef __cplusplus

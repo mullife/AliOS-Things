@@ -26,7 +26,8 @@ GLOBAL_INCLUDES += \
                    Drivers/BSP/displayer \
                    Drivers/BSP/Components/es_wifi \
                    Drivers/CMSIS/Include \
-                   ../../../include/hal                    
+                   ../../../include/hal \
+                   Drivers/CMSIS/Device/ST/STM32F1xx/Include                    
 
 GLOBAL_CFLAGS += -DSTM32F103xB
 

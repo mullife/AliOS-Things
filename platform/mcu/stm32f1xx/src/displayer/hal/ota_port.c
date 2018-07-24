@@ -9,6 +9,8 @@
 #include <hal/soc/soc.h>
 #include "stm32f1xx.h"
 #include "stm32f1xx_hal_flash.h"
+#include "stm32f1xx_hal_flash_ex.h"
+
 #include <CheckSumUtils.h>
 
 #define KV_HAL_OTA_CRC16  "hal_ota_get_crc16"
@@ -34,13 +36,17 @@ static int stm32l475_ota_set_boot(hal_ota_module_t *m, void *something);
 
 int hal_ota_switch_to_new_fw()
 {
+	#if defined(FLASH_BANK2_END)
     if (0 == FLASH_set_boot_bank(FLASH_BANK_BOTH)) {
         LOG("Default boot bank switched successfully.\n");
         return 0;
     } else {
+    #endif
         LOG("Error: failed changing the boot configuration\n");
         return -1;
+    #if defined(FLASH_BANK2_END)
     }
+    #endif
 }
 
 

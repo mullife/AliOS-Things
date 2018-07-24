@@ -59,7 +59,6 @@
 
 /* Global variables ---------------------------------------------------------*/
 RTC_HandleTypeDef hrtc;
-RNG_HandleTypeDef hrng;
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
@@ -101,13 +100,7 @@ void stm32_soc_init(void)
  // BSP_LED_Init(LED_RED);
   BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI);
 //  Led_Off();
-  /* RNG init function */
-  hrng.Instance = RNG;
-  if (HAL_RNG_Init(&hrng) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
+
   /* RTC init */
   RTC_Init();
   /* UART console init */
@@ -137,61 +130,7 @@ void stm32_soc_init(void)
 static void SystemClock_Config(void)
 {
   
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_PeriphCLKInitTypeDef PeriphClkInit;
-  
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE|RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_11;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 6;
-  RCC_OscInitStruct.PLL.PLLN = 20;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
-  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2 
-  clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_USART1
-                                       |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_I2C2
-                                       |RCC_PERIPHCLK_RNG;
-  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
-  PeriphClkInit.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
-  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
-  PeriphClkInit.RngClockSelection = RCC_RNGCLKSOURCE_MSI;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Enable MSI PLL mode */
-  HAL_RCCEx_EnableMSIPLLMode();
+  // TODO:
 }
 
 /**
@@ -257,7 +196,7 @@ static int UART_Init(uart_dev_t *uart)
           stm32_uart[uart->port].handle.Instance = USART1;
           break;
         case COM4:
-          stm32_uart[uart->port].handle.Instance = UART4;
+          stm32_uart[uart->port].handle.Instance = USART2;
           break;
         default:
           return -1;
@@ -265,7 +204,7 @@ static int UART_Init(uart_dev_t *uart)
     
     switch(uart->config.data_width){
         case DATA_WIDTH_7BIT:
-            stm32_uart[uart->port].handle.Init.WordLength = UART_WORDLENGTH_7B;
+            //stm32_uart[uart->port].handle.Init.WordLength = UART_WORDLENGTH_7B;
             break;
         case DATA_WIDTH_8BIT:
             stm32_uart[uart->port].handle.Init.WordLength = UART_WORDLENGTH_8B;
@@ -324,8 +263,8 @@ static int UART_Init(uart_dev_t *uart)
     stm32_uart[uart->port].handle.Init.BaudRate = uart->config.baud_rate;
     stm32_uart[uart->port].handle.Init.Mode = UART_MODE_TX_RX;
     stm32_uart[uart->port].handle.Init.OverSampling = UART_OVERSAMPLING_16;
-    stm32_uart[uart->port].handle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-    stm32_uart[uart->port].handle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+    //stm32_uart[uart->port].handle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    //stm32_uart[uart->port].handle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
     
     if(krhino_buf_queue_create(&g_buf_queue_uart[uart->port], g_pc_buf_queue_name[uart->port], g_buf_uart[uart->port], MAX_BUF_UART_BYTES, 1) != 0){
         return -2;
@@ -470,6 +409,7 @@ static void RTC_Init(void)
   RTC_DateTypeDef sDate;
 
     /**Initialize RTC Only */
+  #if defined(STM32L475xx) 
   hrtc.Instance = RTC;
   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
   hrtc.Init.AsynchPrediv = 127;
@@ -478,6 +418,11 @@ static void RTC_Init(void)
   hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
   hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
   hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  #elif defined(STM32F103xB)
+  hrtc.Instance = RTC;
+  hrtc.Init.AsynchPrediv = 127;
+  #endif
+  
   if (HAL_RTC_Init(&hrtc) != HAL_OK)
   {
     Error_Handler();
@@ -487,8 +432,10 @@ static void RTC_Init(void)
   sTime.Hours = 0x12;
   sTime.Minutes = 0x0;
   sTime.Seconds = 0x0;
+  #if defined(STM32L475xx) 
   sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
   sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  #endif
   if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
   {
     Error_Handler();
@@ -514,11 +461,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   switch (GPIO_Pin)
   {
-    case (BUTTON_EXTI13_Pin):
-    {
-      Button_ISR();
-      break;
-    }
+  	// TODO:
+    //case (BUTTON_EXTI13_Pin):
+    //{
+    //  Button_ISR();
+    //  break;
+    //}
     
     default:
     {

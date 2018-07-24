@@ -109,11 +109,14 @@ LoopFillZerobss:
 /* Call the clock system intitialization function.*/
     bl  SystemInit
 /* Call static constructors */
-    bl __libc_init_array
+#    bl __libc_init_array
 /* Call the application's entry point.*/
-  bl main
-  bx lr
-.size Reset_Handler, .-Reset_Handler
+	b	entry_main
+/**  not need to enter loop
+LoopForever:
+    b LoopForever
+**/    
+.size	Reset_Handler, .-Reset_Handler
 
 /**
  * @brief  This is the code that gets called when the processor receives an

@@ -60,7 +60,7 @@
 int FLASH_unlock_erase(uint32_t address, uint32_t len_bytes);
 int FLASH_update(uint32_t dst_addr, const void *data, uint32_t size);
 
-#if defined (STM32L475xx) || defined (STM32L496xx)
+#if defined (STM32L475xx) || defined (STM32L496xx) || defined(STM32F103xB)
 int FLASH_write_at(uint32_t address, uint64_t *pData, uint32_t len_bytes);
 uint32_t FLASH_get_bank(uint32_t addr);
 int FLASH_get_pageInBank(uint32_t addr);

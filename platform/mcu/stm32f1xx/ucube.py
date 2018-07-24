@@ -77,6 +77,7 @@ include_tmp = Split('''
        Drivers/BSP/Components/es_wifi  
        Drivers/CMSIS/Include 
        ../../../include/hal 
+       Drivers/CMSIS/Device/ST/STM32F1xx/Include 
 ''')
 
 for i in include_tmp:

@@ -46,6 +46,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal_def.h"
 
+#include <k_api.h>
+
 /** @addtogroup STM32F1xx_HAL_Driver
   * @{
   */
@@ -188,6 +190,8 @@ typedef struct
                                                        This parameter can be a value of @ref HAL_UART_StateTypeDef */
 
   __IO uint32_t                 ErrorCode;        /*!< UART Error code                    */
+
+  kbuf_queue_t*             buffer_queue;            /*!< buffer queue                    */
 }UART_HandleTypeDef;
 
 /**

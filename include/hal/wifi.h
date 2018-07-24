@@ -7,7 +7,8 @@
 
 #include <stdint.h>
 #include <hal/base.h>
-#ifdef STM32L475xx
+
+#if defined(STM32L475xx) || defined(STM32F103xB)
 #include "stm32_wifi.h"
 #endif
 
@@ -79,7 +80,7 @@ typedef struct {
     char reserved[32];
     int  wifi_retry_interval;    /* Retry interval if an error is occured when connecting an access point,
                                     time unit is millisecond. */
-#ifdef STM32L475xx
+#if defined(STM32L475xx) || defined(STM32F103xB)
     WIFI_Ecn_t access_sec;
 #endif
 } hal_wifi_init_type_t;

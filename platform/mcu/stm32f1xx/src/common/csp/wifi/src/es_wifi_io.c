@@ -107,7 +107,7 @@ void SPI_WIFI_MspInit(SPI_HandleTypeDef* hspi)
   GPIO_Init.Mode      = GPIO_MODE_OUTPUT_PP;
   GPIO_Init.Pull      = GPIO_NOPULL;
   GPIO_Init.Speed     = GPIO_SPEED_FREQ_LOW;
-  GPIO_Init.Alternate = 0;
+//  GPIO_Init.Alternate = 0;
   HAL_GPIO_Init(GPIOE, &GPIO_Init );
   
   /* configure SPI NSS pin pin */
@@ -123,7 +123,7 @@ void SPI_WIFI_MspInit(SPI_HandleTypeDef* hspi)
   GPIO_Init.Mode      = GPIO_MODE_AF_PP;
   GPIO_Init.Pull      = GPIO_NOPULL;
   GPIO_Init.Speed     = GPIO_SPEED_FREQ_MEDIUM;
-  GPIO_Init.Alternate = GPIO_AF6_SPI3;
+ // GPIO_Init.Alternate = GPIO_AF6_SPI3;
   HAL_GPIO_Init( GPIOC, &GPIO_Init );
   
   /* configure SPI MOSI pin */
@@ -131,7 +131,7 @@ void SPI_WIFI_MspInit(SPI_HandleTypeDef* hspi)
   GPIO_Init.Mode      = GPIO_MODE_AF_PP;
   GPIO_Init.Pull      = GPIO_NOPULL;
   GPIO_Init.Speed     = GPIO_SPEED_FREQ_MEDIUM;
-  GPIO_Init.Alternate = GPIO_AF6_SPI3;
+  //GPIO_Init.Alternate = GPIO_AF6_SPI3;
   HAL_GPIO_Init( GPIOC, &GPIO_Init );
   
   /* configure SPI MISO pin */
@@ -139,13 +139,13 @@ void SPI_WIFI_MspInit(SPI_HandleTypeDef* hspi)
   GPIO_Init.Mode      = GPIO_MODE_AF_PP;
   GPIO_Init.Pull      = GPIO_PULLUP;
   GPIO_Init.Speed     = GPIO_SPEED_FREQ_MEDIUM;
-  GPIO_Init.Alternate = GPIO_AF6_SPI3;
+  //GPIO_Init.Alternate = GPIO_AF6_SPI3;
   HAL_GPIO_Init( GPIOC, &GPIO_Init );
 
   /* Configure the NVIC for SPI */
   /* NVIC for SPI */
-  HAL_NVIC_SetPriority(SPI3_IRQn, 1, 0);
-  HAL_NVIC_EnableIRQ(SPI3_IRQn);
+  HAL_NVIC_SetPriority(SPI1_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(SPI1_IRQn);
 }
 
 /**
@@ -160,7 +160,7 @@ int8_t SPI_WIFI_Init(void)
   uint8_t count = 0;
   HAL_StatusTypeDef  Status;
   
-  hspi.Instance               = SPI3;
+  hspi.Instance               = SPI1;
   SPI_WIFI_MspInit(&hspi);
   
   hspi.Init.Mode              = SPI_MODE_MASTER;
