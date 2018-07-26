@@ -221,5 +221,9 @@
 #define RHINO_CONFIG_TRACE                   0
 #endif
 
+#ifndef RHINO_CONFIG_SYSTEM_STACK_SIZE
+#define RHINO_CONFIG_SYSTEM_STACK_SIZE       0x10000
+#endif
+
 #endif /* CONFIG_H */
 

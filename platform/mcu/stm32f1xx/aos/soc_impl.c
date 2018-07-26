@@ -45,28 +45,49 @@ void soc_intrpt_stack_ovf_check(void)
 
 #if (RHINO_CONFIG_MM_TLF > 0)
 
-#if !defined (__CC_ARM) /* Keil / armcc */
-extern void         *heap_start;
-extern void         *heap_end;
-extern void         *heap_len;
-
-extern void         *heap2_start;
-extern void         *heap2_len;
-#endif
-
-
 #if defined (__CC_ARM) /* Keil / armcc */
-#define HEAP_BUFFER_SIZE 1024*60
+#if 1
+#define HEAP_BUFFER_SIZE 1024*30
 uint8_t g_heap_buf[HEAP_BUFFER_SIZE];
-k_mm_region_t g_mm_region[] = {{g_heap_buf, HEAP_BUFFER_SIZE}, {(uint8_t *)0x10000000, 0x8000}};
-#elif defined (__ICCARM__) /* IAR */
-#define HEAP_BUFFER_SIZE 1024*60
-uint8_t g_heap_buf[HEAP_BUFFER_SIZE];
-k_mm_region_t g_mm_region[] = {{g_heap_buf, HEAP_BUFFER_SIZE}, {(uint8_t *)0x10000000, 0x8000}};
+k_mm_region_t g_mm_region[1];
+int           g_region_num = 1;
+void aos_heap_set()
+{
+    g_mm_region[0].start = g_heap_buf;
+    g_mm_region[0].len   = HEAP_BUFFER_SIZE;
+}
 #else
-k_mm_region_t g_mm_region[] = {{(uint8_t*)&heap_start,(size_t)&heap_len},{(uint8_t*)&heap2_start,(size_t)&heap2_len}};
+extern unsigned int Image$$RW_IRAM1$$ZI$$Limit;
+extern size_t g_iram1_start;
+extern size_t g_iram1_total_size;
+k_mm_region_t g_mm_region[1];
+int           g_region_num = 1;
+void aos_heap_set()
+{
+    g_mm_region[0].start = (uint8_t*)&Image$$RW_IRAM1$$ZI$$Limit;
+    g_mm_region[0].len   = 
+        (g_iram1_start + g_iram1_total_size - (size_t)&Image$$RW_IRAM1$$ZI$$Limit);
+	  printf("g_mm_region[0].start is 0x%x, g_mm_region[0].len is 0x%x \r\n", (size_t)g_mm_region[0].start, g_mm_region[0].len);
+}
 #endif
-int           g_region_num  = sizeof(g_mm_region)/sizeof(k_mm_region_t);
+#elif defined (__ICCARM__)/* IAR */
+#define HEAP_BUFFER_SIZE 1024*20
+uint8_t g_heap_buf[HEAP_BUFFER_SIZE];
+k_mm_region_t g_mm_region[] = {{g_heap_buf, HEAP_BUFFER_SIZE}};
+#else /* GCC */
+extern void         *_estack;
+extern void         *__bss_end__;
+/* __bss_end__ and _estack is set by linkscript(*.ld)
+   heap and stack begins from __bss_end__ to _estack */
+k_mm_region_t g_mm_region[1];
+int           g_region_num = 1;
+void aos_heap_set()
+{
+    g_mm_region[0].start = (uint8_t*)&__bss_end__;
+    g_mm_region[0].len   = 
+        ((uint8_t*)&_estack - (uint8_t*)&__bss_end__) - RHINO_CONFIG_SYSTEM_STACK_SIZE;
+}
+#endif
 
 #endif
 
