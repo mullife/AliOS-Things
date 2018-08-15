@@ -40,7 +40,13 @@ else ifeq ($(HOST_MCU_NAME),STM32F103xE)
 	GLOBAL_LDFLAGS += -T board/stm32f103rb-nucleo/STM32F103XE_FLASH.ld
 endif
 
+sal ?= 1
+ifeq (1,$(sal))
+$(NAME)_COMPONENTS += sal
+module ?= wifi.mk3060
+else
 GLOBAL_DEFINES += CONFIG_NO_TCPIP
+endif
 
 CONFIG_SYSINFO_PRODUCT_MODEL := ALI_AOS_F103-nucleo
 CONFIG_SYSINFO_DEVICE_NAME := F103-nucleo
