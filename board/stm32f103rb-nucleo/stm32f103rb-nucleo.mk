@@ -8,7 +8,7 @@ HOST_ARCH            := Cortex-M3
 HOST_MCU_FAMILY      := stm32f1xx_cube
 SUPPORT_BINS         := no
 HOST_MCU_NAME        := STM32F103xE
-ENABLE_VFP           := 1
+ENABLE_VFP           := 0
 
 $(NAME)_SOURCES += aos/board_partition.c \
                    aos/soc_init.c

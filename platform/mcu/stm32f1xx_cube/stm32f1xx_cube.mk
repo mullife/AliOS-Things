@@ -3,7 +3,7 @@ HOST_OPENOCD := stm32f1xx
 $(NAME)_TYPE := kernel
 
 $(NAME)_COMPONENTS += platform/arch/arm/armv7m
-$(NAME)_COMPONENTS += libc rhino hal vfs cli
+$(NAME)_COMPONENTS += libc rhino hal vfs cli modules.fs.kv digest_algorithm
 
 GLOBAL_DEFINES += CONFIG_AOS_KV_MULTIPTN_MODE
 GLOBAL_DEFINES += CONFIG_AOS_KV_PTN=6
@@ -30,6 +30,7 @@ $(NAME)_SOURCES := Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c  \
 				Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c \
 				Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_usart.c \
 				Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_wwdg.c \
+				Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c \
 				Drivers/CMSIS/Device/ST/STM32F1xx/Source/Templates/system_stm32f1xx.c
 
 $(NAME)_SOURCES += aos/soc_impl.c \
@@ -39,7 +40,8 @@ $(NAME)_SOURCES += aos/soc_impl.c \
 				hal/hw.c \
 				hal/hal_gpio_stm32f1.c \
 				hal/hal_i2c_stm32f1.c \
-				hal/hal_rtc_stm32f1.c
+				hal/hal_rtc_stm32f1.c \
+				hal/hal_flash_stm32f1.c
 
 ifeq ($(COMPILER),armcc)
 	GLOBAL_CFLAGS   += --c99 --cpu=Cortex-M3 -D__MICROLIB -g --split_sections

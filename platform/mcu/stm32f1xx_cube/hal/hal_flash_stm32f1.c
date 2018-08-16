@@ -9,6 +9,7 @@
 #include <k_api.h>
 #include "hal/soc/soc.h"
 #include "stm32f1xx_hal_flash.h"
+#include "hal_flash_stm32f1.h"
 
 #define ROUND_DOWN(a,b) (((a) / (b)) * (b))
 #define MIN(a,b)        (((a) < (b)) ? (a) : (b))
@@ -78,30 +79,7 @@ int FLASH_get_pageInBank(uint32_t addr)
 int FLASH_erase_at(uint32_t address, uint32_t len_bytes)
 {
     int ret = -1;
-    uint32_t PageError = 0;
-    FLASH_EraseInitTypeDef EraseInit;
-
-    /* L4 ROM memory map, with 2 banks split into 2kBytes pages.
-     * WARN: ABW. If the passed address and size are not page-aligned,
-     * the start of the first page and the end of the last page are erased anyway.
-     * After erase, the flash is left in unlocked state.
-     */
-    EraseInit.TypeErase = FLASH_TYPEERASE_PAGES;
-
-    EraseInit.Banks = FLASH_get_bank(address);
-    if (EraseInit.Banks != FLASH_get_bank(address + len_bytes - 1)) {
-        printf("Error: Cannot erase across FLASH banks.\n");
-    } else {
-        EraseInit.Page = FLASH_get_pageInBank(address);
-        EraseInit.NbPages = FLASH_get_pageInBank(address + len_bytes - 1) - EraseInit.Page + 1;
-
-		ret = HAL_FLASHEx_Erase(&EraseInit, &PageError);
-        if (ret == HAL_OK) {
-            ret = 0;
-        } else {
-            printf("Error erasing at 0x%08lx\n", address);
-        }
-    }
+    
 
     return ret;
 }
@@ -116,38 +94,8 @@ int FLASH_erase_at(uint32_t address, uint32_t len_bytes)
   */
 int FLASH_write_at(uint32_t address, uint64_t *pData, uint32_t len_bytes)
 {
-    int i;
     int ret = -1;
 
-#ifndef CODE_UNDER_FIREWALL
-    /* irq already mask under firewall */
-    __disable_irq();
-#endif
-
-    for (i = 0; i < len_bytes; i += 8) {
-        if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD,
-                              address + i,
-                              *(pData + (i / 8) )) != HAL_OK) {
-            break;
-        }
-    }
-    /* Memory check */
-    for (i = 0; i < len_bytes; i += 4) {
-        uint32_t *dst = (uint32_t *)(address + i);
-        uint32_t *src = ((uint32_t *) pData) + (i / 4);
-
-        if ( *dst != *src ) {
-#ifndef CODE_UNDER_FIREWALL
-            printf("Write failed @0x%08lx, read value=0x%08lx, expected=0x%08lx\n", (uint32_t) dst, *dst, *src);
-#endif
-            break;
-        }
-        ret = 0;
-    }
-#ifndef CODE_UNDER_FIREWALL
-    /* irq should never be enable under firewall */
-    __enable_irq();
-#endif
     return ret;
 }
 
@@ -242,7 +190,7 @@ int32_t hal_flash_write(hal_partition_t pno, uint32_t *poff, const void *buf , u
         printf("HAL_FLASH_Unlock return %d\n", ret);
         return -1;
     }
-    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_ALL_ERRORS);
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_PGERR);
 
     real_pno = pno;
     partition_info = hal_flash_get_info( real_pno );
@@ -295,7 +243,7 @@ int32_t hal_flash_erase(hal_partition_t pno, uint32_t off_set,
         printf("HAL_FLASH_Unlock return %d\n", ret);
         return -1;
     }
-    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_ALL_ERRORS);
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_PGERR);
 
     real_pno = pno;
     partition_info = hal_flash_get_info( real_pno );
