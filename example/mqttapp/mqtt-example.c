@@ -43,6 +43,8 @@
 #define DEVICE_SECRET "Y8QN9QFGvbCVpJ23F2ZFuwhR4785NO5C"
 #endif
 
+#define TEST_LOOP
+
 char __product_key[PRODUCT_KEY_LEN + 1];
 char __device_name[DEVICE_NAME_LEN + 1];
 char __device_secret[DEVICE_SECRET_LEN + 1];
