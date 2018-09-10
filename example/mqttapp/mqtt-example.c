@@ -45,6 +45,11 @@
 
 #define TEST_LOOP
 
+#define CAN_SLAVER_NAME_SHOW		"device_name:"
+#define CAN_SLAVER_ID				"can_id:"
+uint8_t name[8]={0},canid[4]={0};
+
+
 char __product_key[PRODUCT_KEY_LEN + 1];
 char __device_name[DEVICE_NAME_LEN + 1];
 char __device_secret[DEVICE_SECRET_LEN + 1];
@@ -163,6 +168,25 @@ static void _demo_message_arrive(void *pcontext, void *pclient,
     EXAMPLE_TRACE("Payload: '%.*s' (Length: %d)", ptopic_info->payload_len,
                   ptopic_info->payload, ptopic_info->payload_len);
     EXAMPLE_TRACE("----");
+
+	// Decode the package from cloud server
+    if (ptopic_info->payload_len > 0) {
+    	char *start = NULL;
+    	char *end = NULL;
+    	
+		if (((start = strstr(ptopic_info->payload, CAN_SLAVER_NAME_SHOW)) != NULL) && \
+			((end = strstr(ptopic_info->payload, CAN_SLAVER_ID)) != NULL) )
+		{	
+			sscanf(start + sizeof(CAN_SLAVER_NAME_SHOW)-1,"%x %x %x %x %x %x %x %x", &name[0],&name[1],&name[2],&name[3],\
+				&name[4],&name[5],&name[6],&name[7]);
+			EXAMPLE_TRACE("name = 0x%x%x%x%x%x%x%x%x",name[0],name[1],name[2],name[3],\
+				name[4],name[5],name[6],name[7]);
+
+			sscanf(end + sizeof(CAN_SLAVER_ID)-1, "%x %x %x %x", &canid[0], &canid[1], &canid[2], &canid[3]);
+			EXAMPLE_TRACE("canid = 0x%x%x%x%x",canid[0], canid[1], canid[2], canid[3]);
+		}
+    }
+    
 }
 
 int mqtt_client(void)
